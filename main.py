@@ -64,10 +64,16 @@ class BulkOrder(Order):
 
 class OrderFactory:
     @staticmethod
-    def create_order(order_type, client, dishes, quantity=None):
-        if order_type == "regular":
-            return RegularOrder(client, dishes)
-        elif order_type == "bulk":
-            return BulkOrder(client, dishes, quantity)
-        else:
-            raise ValueError("Unknown order type")
+    def create_order(order_type, client, dishes, quantity=1):
+        if not dishes:
+            raise ValueError("Menu cannot be empty")
+        if not client:
+            raise ValueError("Customer name cannot be empty")
+
+        match order_type:
+            case "regular":
+                return RegularOrder(client, dishes)
+            case "bulk":
+                return BulkOrder(client, dishes, quantity)
+            case _:
+                raise ValueError(f"Invalid order type: {order_type}")

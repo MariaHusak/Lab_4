@@ -47,6 +47,14 @@ class TestOrderFactory(unittest.TestCase):
         with self.assertRaises(ValueError):
             OrderFactory.create_order("invalid", "John Doe", ["Pizza", "Pasta"])
 
+    def test_handling_empty_menu(self):
+        with self.assertRaises(ValueError):
+            OrderFactory.create_order("regular", "John Doe", [])
+
+    def test_handling_absent_customer(self):
+        with self.assertRaises(ValueError):
+            OrderFactory.create_order("regular", "", ["Pizza", "Pasta"])
+
 
 class TestSingletonPattern(unittest.TestCase):
     def test_ensures_single_instance(self):
